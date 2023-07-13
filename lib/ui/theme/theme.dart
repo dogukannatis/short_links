@@ -7,8 +7,7 @@ final ThemeData lightTheme = ThemeData(
     primaryColor: ColorManager.lightPrimary,
     fontFamily: "Roboto",
 
-    // scaffoldBackgroundColor: Colors.white,
-    // primaryColorBrightness: Brightness.light,
+    scaffoldBackgroundColor: Colors.white,
 
 
     cardColor: Colors.white,

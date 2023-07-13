@@ -5,6 +5,7 @@ class ColorManager {
   static Color lightPrimary = const Color(0xFF2a86ff);
   static Color lightSecondary = const Color(0xFFFFA32A);
   static Color inputBackground = const Color(0xFFf1f4f5);
+  static Color backgroundAlternateColor = const Color(0xFFF7F6F2);
 
   static Color grey1 =HexColor.fromHex("#707070");
   static Color grey2 = HexColor.fromHex("#797979");

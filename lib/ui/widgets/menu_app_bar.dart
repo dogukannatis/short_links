@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
-import 'package:short_links/ui/widgets/CustomButton.dart';
 
 
 class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -29,7 +28,7 @@ class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
               InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Home Page"),
+                  child: Text("Home Page", style: TextStyle(fontSize: 12)),
                 ),
                 onTap: (){
                   Navigator.pushReplacementNamed(context, Routes.homePageRoute);
@@ -39,39 +38,53 @@ class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
               InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("What is Short Links"),
+                  child: Text("What is Short Links", style: TextStyle(fontSize: 12),),
                 ),
                 onTap: (){
                   Navigator.pushReplacementNamed(context, Routes.whatIsShortLinksPageRoute);
                 },
               ),
+              /*
               const SizedBox(width: 10,),
               InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("How To Use?"),
+                  child: Text("How To Use?", style: TextStyle(fontSize: 12)),
                 ),
                 onTap: (){
 
                 },
               ),
+               */
               const SizedBox(width: 10,),
-              CustomButton(
-                width: 100,
-                onPressed: (){
+              const VerticalDivider(),
+              const SizedBox(width: 10,),
+              /*
+              InkWell(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Login", style: TextStyle(fontSize: 12)),
+                ),
+                onTap: (){
 
                 },
-                child: const Text("Login"),
+              ),
+               */
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.pushReplacementNamed(context, Routes.login);
+                },
+                child: const Text("Login", style: TextStyle(fontSize: 12,)),
               ),
               const SizedBox(width: 10,),
-              CustomButton(
-                width: 100,
+              OutlinedButton(
                 onPressed: (){
-
+                  Navigator.pushReplacementNamed(context, Routes.register);
                 },
-                color: Colors.black,
-                splashColor: Colors.black,
-                child: const Text("Register"),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: Colors.black
+                ),
+                child: const Text("Register", style: TextStyle(fontSize: 12, color: Colors.black)),
               ),
               const SizedBox(width: 40,),
             ],
