@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_links/ui/resources/color_manager.dart';
+import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/home_menu_drawer.dart';
 import 'package:short_links/ui/widgets/menu_app_bar.dart';
@@ -24,7 +25,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
 
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
-
 
 
     return Scaffold(
@@ -70,7 +70,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   foregroundColor: Colors.black
               ),
               onPressed: (){
-
+                Navigator.pushReplacementNamed(context, Routes.register);
               },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -82,7 +82,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       StatisticCircleWidget(headerString: "300", bodyString: "Users",),
                       StatisticCircleWidget(headerString: "1250", bodyString: "Links",),
                       StatisticCircleWidget(headerString: "2", bodyString: "Years Experience",),
-                       */
+            */
           ],
         ),
       ),

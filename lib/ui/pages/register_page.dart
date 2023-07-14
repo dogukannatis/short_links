@@ -7,8 +7,8 @@ import 'package:short_links/ui/widgets/CustomButton.dart';
 import 'package:short_links/ui/widgets/home_menu_drawer.dart';
 import 'package:short_links/ui/widgets/menu_app_bar.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({
     Key? key,
   }) : super(key: key);
 
@@ -16,7 +16,7 @@ class LoginPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _LoginPageState extends ConsumerState<RegisterPage> {
 
   final GlobalKey<FormState> _formLoginKey = GlobalKey<FormState>();
 
@@ -24,12 +24,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   TextEditingController passwordController = TextEditingController();
 
   bool isMobile = false;
-  bool show = false;
 
   @override
   Widget build(BuildContext context) {
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
-
 
     return Scaffold(
       appBar: MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
@@ -53,7 +51,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     key: _formLoginKey,
                     child: Column(
                       children: [
-                        const Text("Login", style: TextStyle(fontSize: 21, letterSpacing: 3),),
+                        const Text("Register", style: TextStyle(fontSize: 21, letterSpacing: 3),),
                         const SizedBox(height: 20,),
                         TextFormField(
                           decoration: const InputDecoration(
@@ -72,17 +70,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 20,),
                         TextFormField(
-                          obscureText: show ? false : true,
-                          decoration: InputDecoration(
+                          obscureText: true,
+                          decoration: const InputDecoration(
                               hintText: "Password",
-                              suffixIcon: GestureDetector(
-                                child: show == true ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
-                                onTap: (){
-                                  setState(() {
-                                    show = !show;
-                                  });
-                                },
-                              )
                           ),
                           controller: passwordController,
                           validator: (v){
@@ -93,22 +83,36 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           },
                         ),
                         const SizedBox(height: 20,),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                              hintText: "Confirm your password",
+                          ),
+                          controller: passwordController,
+                          validator: (v){
+                            if(v!.isEmpty && v != passwordController.text){
+                              return "Passwords are not matched";
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20,),
                         CustomButton(
                           onPressed: (){
-                            //TODO: Login Operations
+                            //TODO: Register Operations
                           },
-                          child: const Text(AppStrings.login),
+                          child: const Text(AppStrings.register),
                         ),
                         const SizedBox(height: 20,),
                         const Divider(thickness: 2,),
                         const SizedBox(height: 20,),
                         CustomButton(
                           onPressed: (){
-                            Navigator.pushReplacementNamed(context, Routes.register);
+                            Navigator.pushReplacementNamed(context, Routes.login);
                           },
                           color: Theme.of(context).colorScheme.secondary,
                           splashColor: Theme.of(context).colorScheme.secondary,
-                          child: const Text(AppStrings.register),
+                          child: const Text(AppStrings.login),
                         ),
                       ],
                     ),

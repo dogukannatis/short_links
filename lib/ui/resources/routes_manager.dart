@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:short_links/ui/pages/home_page.dart';
 import 'package:short_links/ui/pages/login_page.dart';
+import 'package:short_links/ui/pages/register_page.dart';
 import 'package:short_links/ui/pages/what_is_short_links_page.dart';
 
 class Routes {
@@ -20,7 +21,7 @@ class RouteGenerator {
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
       case Routes.register:
-        return MaterialPageRoute(builder: (_) => const LoginPage());
+        return MaterialPageRoute(builder: (_) => const RegisterPage());
       default:
         return unDefinedRoute();
     }
