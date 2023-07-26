@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_links/ui/resources/color_manager.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
-import 'package:short_links/ui/widgets/home_menu_drawer.dart';
-import 'package:short_links/ui/widgets/menu_app_bar.dart';
+import 'package:short_links/ui/widgets/menu/menu_drawer.dart';
+import 'package:short_links/ui/widgets/menu/menu_app_bar.dart';
 import 'package:short_links/ui/widgets/statistic_widget.dart';
 
 
@@ -29,7 +29,7 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
-        drawer: isMobile ? const HomeMenuDrawer() : null,
+        drawer: isMobile ? const MenuDrawer() : null,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 50),

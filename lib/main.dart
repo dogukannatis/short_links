@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:short_links/ui/pages/home_page.dart';
+import 'package:short_links/landing_page.dart';
 import 'package:short_links/ui/theme/theme.dart';
 
 import 'ui/resources/routes_manager.dart';
@@ -15,13 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Short Links',
-      theme: lightTheme,
-      home: const HomePage(),
-      initialRoute: Routes.homePageRoute,
-      onGenerateRoute: RouteGenerator.getRoute,
-    );
+    return const LandingPage();
   }
 }
 

@@ -4,8 +4,11 @@ import 'package:short_links/ui/resources/input_checker.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/CustomButton.dart';
-import 'package:short_links/ui/widgets/home_menu_drawer.dart';
-import 'package:short_links/ui/widgets/menu_app_bar.dart';
+import 'package:short_links/ui/widgets/CustomDialog.dart';
+import 'package:short_links/ui/widgets/menu/menu_drawer.dart';
+import 'package:short_links/ui/widgets/menu/menu_app_bar.dart';
+
+import '../../view_model/user_manager.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({
@@ -30,10 +33,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
 
+    final userModelState = ref.watch(userManagerProvider);
+
 
     return Scaffold(
       appBar: MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
-      drawer: isMobile ? const HomeMenuDrawer() : null,
+      drawer: isMobile ? const MenuDrawer() : null,
       body: SingleChildScrollView(
         child: Center(
           child: Row(
@@ -96,8 +101,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         CustomButton(
                           onPressed: (){
                             //TODO: Login Operations
+                            if(_formLoginKey.currentState!.validate()){
+                              _formLoginKey.currentState!.save();
+                              signin();
+                            }
                           },
-                          child: const Text(AppStrings.login),
+                          child: userModelState == UserManagerState.busy
+                             ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2,),
+                          ) : const Text(AppStrings.login),
                         ),
                         const SizedBox(height: 20,),
                         const Divider(thickness: 2,),
@@ -121,4 +135,26 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       ),
     );
   }
+
+  Future<void> signin() async {
+    final userModel = ref.read(userManagerProvider.notifier);
+
+    try{
+      await userModel.signin(email: emailController.text, password: passwordController.text);
+      Navigator.pushReplacementNamed(context, Routes.userHomePage);
+
+    }catch(e, str){
+      debugPrint("Hata Login: $e $str");
+      const CustomDialog(
+        title: "Error",
+        description: "Email or password is wrong. Please try again.",
+        acceptButton: "Close",
+      ).show(context);
+    }
+
+
+  }
+
+
+
 }

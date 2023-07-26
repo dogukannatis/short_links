@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_links/ui/resources/color_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/card_widget.dart';
-import 'package:short_links/ui/widgets/home_menu_drawer.dart';
-import 'package:short_links/ui/widgets/menu_app_bar.dart';
+import 'package:short_links/ui/widgets/menu/menu_drawer.dart';
+import 'package:short_links/ui/widgets/menu/menu_app_bar.dart';
 
 class WhatIsShortLinksPage extends ConsumerStatefulWidget {
   const WhatIsShortLinksPage({
@@ -27,7 +27,7 @@ class _WhatIsShortLinksPageState extends ConsumerState<WhatIsShortLinksPage> {
 
     return Scaffold(
       appBar: MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
-      drawer: isMobile ? const HomeMenuDrawer() : null,
+      drawer: isMobile ? const MenuDrawer() : null,
       body: SingleChildScrollView(
           child: Center(
             child: Column(

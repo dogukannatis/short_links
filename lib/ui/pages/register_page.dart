@@ -4,8 +4,10 @@ import 'package:short_links/ui/resources/input_checker.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/CustomButton.dart';
-import 'package:short_links/ui/widgets/home_menu_drawer.dart';
-import 'package:short_links/ui/widgets/menu_app_bar.dart';
+import 'package:short_links/ui/widgets/CustomDialog.dart';
+import 'package:short_links/ui/widgets/menu/menu_drawer.dart';
+import 'package:short_links/ui/widgets/menu/menu_app_bar.dart';
+import 'package:short_links/view_model/user_manager.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({
@@ -18,10 +20,12 @@ class RegisterPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<RegisterPage> {
 
-  final GlobalKey<FormState> _formLoginKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formRegisterKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
 
   bool isMobile = false;
 
@@ -31,7 +35,7 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
 
     return Scaffold(
       appBar: MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
-      drawer: isMobile ? const HomeMenuDrawer() : null,
+      drawer: isMobile ? const MenuDrawer() : null,
       body: SingleChildScrollView(
         child: Center(
           child: Row(
@@ -48,7 +52,7 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Form(
-                    key: _formLoginKey,
+                    key: _formRegisterKey,
                     child: Column(
                       children: [
                         const Text("Register", style: TextStyle(fontSize: 21, letterSpacing: 3),),
@@ -65,7 +69,20 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
                             }else{
                               return null;
                             }
-
+                          },
+                        ),
+                        const SizedBox(height: 20,),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                              hintText: "Username"
+                          ),
+                          controller: usernameController,
+                          validator: (value){
+                            if(value!.isEmpty || !InputChecker.isValidUsername(value)){
+                              return "Please enter a valid username";
+                            }else{
+                              return null;
+                            }
                           },
                         ),
                         const SizedBox(height: 20,),
@@ -88,7 +105,7 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
                           decoration: const InputDecoration(
                               hintText: "Confirm your password",
                           ),
-                          controller: passwordController,
+                          controller: passwordConfirmController,
                           validator: (v){
                             if(v!.isEmpty && v != passwordController.text){
                               return "Passwords are not matched";
@@ -100,6 +117,10 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
                         CustomButton(
                           onPressed: (){
                             //TODO: Register Operations
+                            if(_formRegisterKey.currentState!.validate()){
+                              _formRegisterKey.currentState!.save();
+                              register();
+                            }
                           },
                           child: const Text(AppStrings.register),
                         ),
@@ -125,4 +146,32 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
       ),
     );
   }
+
+  Future<void> register() async {
+    final userModel = ref.read(userManagerProvider.notifier);
+    try{
+      bool result = await userModel.register(
+          email: emailController.text,
+          username: usernameController.text,
+          password: passwordController.text
+      );
+      if(result){
+        Navigator.pushReplacementNamed(context, Routes.login);
+      }else{
+        const CustomDialog(
+          title: "Error",
+          description: "Error occured",
+          acceptButton: "Close",
+        ).show(context);
+      }
+    }catch(e){
+      CustomDialog(
+        title: "Error",
+        description: "Hata $e",
+        acceptButton: "Close",
+      ).show(context);
+    }
+
+  }
+
 }

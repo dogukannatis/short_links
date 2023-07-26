@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/widgets/CustomButton.dart';
 
-class HomeMenuDrawer extends StatelessWidget {
-  const HomeMenuDrawer({
+class MenuDrawer extends StatelessWidget {
+  const MenuDrawer({
     super.key,
   });
 
