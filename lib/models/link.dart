@@ -1,10 +1,9 @@
 
 class Link {
-
   final String id;
   String? originalLink;
   String? refLink;
-  bool? belongsTo;
+  String? belongsTo;
   int? click;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -20,7 +19,6 @@ class Link {
 
   Map<String, dynamic> toMap() {
     return {
-      "id"        : id,
       "originalLink"     : originalLink,
       "refLink"  : refLink,
       "belongsTo"  : belongsTo,
@@ -28,15 +26,16 @@ class Link {
   }
 
   Link.fromMap(Map<String, dynamic> map):
-        id = map["id"],
-        originalLink = map["originalLink"],
-        refLink = map["refLink"],
-        belongsTo = map["belongsTo"],
-        createdAt = map["createdAt"],
-        updatedAt = map["updatedAt"];
+        id = map["_id"],
+        originalLink = map["original_link"],
+        refLink = map["link_ref"],
+        belongsTo = map["belongs_to"],
+        click = map["click"];
+
 
   @override
   String toString() {
     return 'Link{id: $id, originalLink: $originalLink, refLink: $refLink, belongsTo: $belongsTo, click: $click, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
+
 }

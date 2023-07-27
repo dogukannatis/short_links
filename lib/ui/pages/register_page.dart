@@ -1,3 +1,5 @@
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_links/ui/resources/input_checker.dart';
@@ -32,6 +34,8 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
+
+    final userModelState = ref.watch(userManagerProvider);
 
     return Scaffold(
       appBar: MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
@@ -115,14 +119,19 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
                         ),
                         const SizedBox(height: 20,),
                         CustomButton(
-                          onPressed: (){
+                          onPressed: userModelState == UserManagerState.busy ? null : (){
                             //TODO: Register Operations
+
                             if(_formRegisterKey.currentState!.validate()){
                               _formRegisterKey.currentState!.save();
                               register();
                             }
                           },
-                          child: const Text(AppStrings.register),
+                          child: userModelState == UserManagerState.busy ? const SizedBox(
+                            height: 16,
+                            width: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white,),
+                          ) : const Text(AppStrings.register),
                         ),
                         const SizedBox(height: 20,),
                         const Divider(thickness: 2,),
@@ -149,6 +158,8 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
 
   Future<void> register() async {
     final userModel = ref.read(userManagerProvider.notifier);
+
+
     try{
       bool result = await userModel.register(
           email: emailController.text,
@@ -157,6 +168,20 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
       );
       if(result){
         Navigator.pushReplacementNamed(context, Routes.login);
+        final snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: AppStrings.confirmYourEmail,
+            message: AppStrings.confirmYourEmailExplanation,
+            contentType: ContentType.success,
+          ),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+
       }else{
         const CustomDialog(
           title: "Error",

@@ -16,4 +16,11 @@ class AppStrings {
   static const String login = "Login";
   static const String register = "Register";
 
+
+  static const String confirmYourEmail = "Confirm Your Email";
+  static const String confirmYourEmailExplanation = "Please confirm your email address by clicking the link";
+
+  static const String convert = "Convert";
+  static const String convertAgain = "Convert Again";
+
 }

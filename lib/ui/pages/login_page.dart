@@ -33,7 +33,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
 
-    final userModelState = ref.watch(userManagerProvider);
+    final userManagerState = ref.watch(userManagerProvider);
 
 
     return Scaffold(
@@ -106,11 +106,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               signin();
                             }
                           },
-                          child: userModelState == UserManagerState.busy
+                          child: userManagerState == UserManagerState.busy
                              ? const SizedBox(
                             height: 16,
                             width: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2,),
+                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white,),
                           ) : const Text(AppStrings.login),
                         ),
                         const SizedBox(height: 20,),
@@ -144,7 +144,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       Navigator.pushReplacementNamed(context, Routes.userHomePage);
 
     }catch(e, str){
-      debugPrint("Hata Login: $e $str");
+      debugPrint("Error Login: $e $str");
       const CustomDialog(
         title: "Error",
         description: "Email or password is wrong. Please try again.",

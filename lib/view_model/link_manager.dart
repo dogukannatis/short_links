@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_links/models/link.dart';
-import 'package:short_links/models/user.dart';
 import 'package:short_links/services/api.dart';
-
-import '../locator.dart';
 
 
 enum LinkManagerState {idle, busy}
@@ -25,6 +21,30 @@ class LinkManager extends StateNotifier<LinkManagerState>{
       await Future.delayed(const Duration(microseconds: 100));
       state = LinkManagerState.busy;
       return await api.getMyLinks(token: token);
+    }finally{
+      state = LinkManagerState.idle;
+    }
+
+  }
+
+  Future<Link> convertLink({required String originalLink, required String token}) async {
+
+    try{
+      await Future.delayed(const Duration(microseconds: 100));
+      state = LinkManagerState.busy;
+      return await api.convertLink(originalLink: originalLink, token: token);
+    }finally{
+      state = LinkManagerState.idle;
+    }
+
+  }
+
+  Future<bool> deleteMyLink({required String id, required String token}) async {
+
+    try{
+      await Future.delayed(const Duration(microseconds: 100));
+      state = LinkManagerState.busy;
+      return await api.deleteMyLink(id: id, token: token);
     }finally{
       state = LinkManagerState.idle;
     }
