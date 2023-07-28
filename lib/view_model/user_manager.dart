@@ -21,6 +21,9 @@ class UserManager extends StateNotifier<UserManagerState>{
 
   User? user;
 
+  List<User> userList = [];
+  int page = 0;
+  bool hasMoreUsers = true;
 
   Future<void> checkTokenAndSignin() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,7 +45,6 @@ class UserManager extends StateNotifier<UserManagerState>{
 
   }
 
-
   Future<void> getMyDate() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -59,6 +61,44 @@ class UserManager extends StateNotifier<UserManagerState>{
       if(user == null){
         debugPrint("Token is invalid. Login required.");
       }
+    }finally{
+      state = UserManagerState.idle;
+    }
+
+  }
+
+  Future<List<User>> getAllUsers({bool refresh = false}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString("token");
+
+    if(token == null){
+      debugPrint("Token is invalid. Login required.");
+      return [];
+    }
+
+
+    try{
+      state = UserManagerState.busy;
+      if(refresh){
+        page = 0;
+        hasMoreUsers = true;
+      }
+
+      if(hasMoreUsers == false){
+        return userList;
+      }
+
+      Map result = await api.getAllUsers(token: token, page: page);
+      page++;
+      userList.addAll(result["users"]);
+
+      if(result["users"].length < 20){
+        hasMoreUsers = false;
+      }
+
+      return userList;
+
     }finally{
       state = UserManagerState.idle;
     }
@@ -102,7 +142,44 @@ class UserManager extends StateNotifier<UserManagerState>{
   }
 
 
+  Future<bool> updateUser({required String username, required String userID}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    String? token = prefs.getString("token");
+
+    if(token == null){
+      return false;
+    }
+
+    try{
+      state = UserManagerState.busy;
+      bool result = await api.updateUser(username: username, userID: userID, token: token);
+      if(result){
+        userList.where((element) => element.id == userID).first.username = username;
+      }
+      return result;
+    }finally{
+      state = UserManagerState.idle;
+    }
+  }
+
+
+  Future<bool> deleteUser({required String userID}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString("token");
+
+    if(token == null){
+      return false;
+    }
+
+    try{
+      state = UserManagerState.busy;
+      return await api.deleteUser(token: token, userID: userID);
+    }finally{
+      state = UserManagerState.idle;
+    }
+  }
 
 
 }

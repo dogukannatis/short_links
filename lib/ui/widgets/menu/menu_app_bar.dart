@@ -28,7 +28,7 @@ class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
               InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Home Page", style: TextStyle(fontSize: 12)),
+                  child: Text("Home", style: TextStyle(fontSize: 12)),
                 ),
                 onTap: (){
                   Navigator.pushReplacementNamed(context, Routes.homePageRoute);
@@ -53,6 +53,18 @@ class MenuAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 onTap: (){
 
+                },
+              ),
+               */
+              const SizedBox(width: 10,),
+              /*
+              InkWell(
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("Link Shortener", style: TextStyle(fontSize: 12),),
+                ),
+                onTap: (){
+                  Navigator.pushReplacementNamed(context, Routes.linkShortener);
                 },
               ),
                */

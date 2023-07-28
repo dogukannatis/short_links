@@ -21,8 +21,8 @@ class UserMenuDrawer extends ConsumerWidget {
           children: [
             Column(
               children: [
-                const UserAccountsDrawerHeader(
-                  decoration: BoxDecoration(
+                 UserAccountsDrawerHeader(
+                  decoration: const BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.bottomLeft,
                           end: Alignment.topRight,
@@ -32,8 +32,8 @@ class UserMenuDrawer extends ConsumerWidget {
                           ]
                       )
                   ),
-                  accountName: Text("account"),
-                  accountEmail: Text("mail"),
+                  accountName: Text("${userManager.user!.username}"),
+                  accountEmail: Text("${userManager.user!.email}"),
 
                 ),
                 Column(
@@ -42,15 +42,22 @@ class UserMenuDrawer extends ConsumerWidget {
                       onTap: (){
                         Navigator.pushReplacementNamed(context, Routes.myLinks);
                       },
-                      leading: const Icon(Icons.link, color: Colors.white,),
-                      title: const Text("My Links", style: TextStyle(color: Colors.white)),
+                      leading: const Icon(Icons.link),
+                      title: const Text("My Links"),
                     ),
                     ListTile(
                       onTap: (){
                         Navigator.pushReplacementNamed(context, Routes.linkShortener);
                       },
-                      leading: const Icon(Icons.add_link, color: Colors.white,),
-                      title: const Text("Link Shortener", style: TextStyle(color: Colors.white)),
+                      leading: const Icon(Icons.add_link),
+                      title: const Text("Link Shortener"),
+                    ),
+                    ListTile(
+                      onTap: (){
+                        Navigator.pushReplacementNamed(context, Routes.adminPanelPage);
+                      },
+                      leading: const Icon(Icons.settings),
+                      title: const Text("Admin Panel"),
                     ),
                     ListTile(
                       onTap: (){
@@ -59,13 +66,14 @@ class UserMenuDrawer extends ConsumerWidget {
                           description: "Çıkış yapmak istediğnize emin misiniz?",
                           acceptButton: "Çıkış Yap",
                           cancelButton: "Vazgeç",
-                          acceptFunction: () {
-                            userManager.signOut();
+                          acceptFunction: () async {
+                            await userManager.signOut();
+                            Navigator.pushReplacementNamed(context, Routes.homePageRoute);
                           },
                         ).show(context);
                       },
-                      leading: const Icon(Icons.exit_to_app, color: Colors.white,),
-                      title: const Text("Çıkış Yap", style: TextStyle(color: Colors.white)),
+                      leading: const Icon(Icons.exit_to_app),
+                      title: const Text("Çıkış Yap"),
                     )
                   ],
                 )

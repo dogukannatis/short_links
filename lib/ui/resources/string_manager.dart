@@ -23,4 +23,17 @@ class AppStrings {
   static const String convert = "Convert";
   static const String convertAgain = "Convert Again";
 
+  static const String letsManageYourLinks = "Let's Manage Your Links";
+
+  static const String welcome = "Welcome";
+
+  static const String letsAddALink = "Let's Add A Link";
+  static const String youHaveNotAnyLinkRecords = "You have not any link record.";
+
+  static const String manageUsers = "Manage Users";
+  static const String manageLinks = "Manage Links";
+
+  static const String success = "Success";
+  static const String operationIsSuccessful = "Operation is successful";
+
 }

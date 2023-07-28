@@ -3,7 +3,6 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:short_links/ui/pages/home_page.dart";
 import "package:short_links/ui/pages/user_home_page.dart";
 import "package:short_links/ui/theme/theme.dart";
-import "package:short_links/view_model/auth_manager.dart";
 import "package:short_links/view_model/user_manager.dart";
 
 import "ui/resources/routes_manager.dart";
@@ -30,13 +29,23 @@ class _LandingPageState extends ConsumerState<LandingPage> {
     debugPrint("user: $user");
 
     if(user != null){
-      return MaterialApp(
-        title: 'Short Links',
-        theme: lightTheme,
-        home: const UserHomePage(),
-        initialRoute: Routes.userHomePage,
-        onGenerateRoute: RouteGenerator.getUserRoute,
-      );
+      if(user.isAdmin == true){
+        return MaterialApp(
+          title: 'Short Links',
+          theme: lightTheme,
+          home: const UserHomePage(),
+          initialRoute: Routes.userHomePage,
+          onGenerateRoute: RouteGenerator.getAdminRoute,
+        );
+      }else{
+        return MaterialApp(
+          title: 'Short Links',
+          theme: lightTheme,
+          home: const UserHomePage(),
+          initialRoute: Routes.userHomePage,
+          onGenerateRoute: RouteGenerator.getUserRoute,
+        );
+      }
     }else{
       return MaterialApp(
         title: 'Short Links',

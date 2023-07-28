@@ -21,7 +21,7 @@ class MenuDrawer extends StatelessWidget {
                   title: Text("Short Links", style: TextStyle(fontWeight: FontWeight.bold),),
                 ),
                 ListTile(
-                  title: const Text("Home Page"),
+                  title: const Text("Home"),
                   onTap: (){
                     Navigator.pushReplacementNamed(context, Routes.homePageRoute);
                   },
@@ -32,6 +32,15 @@ class MenuDrawer extends StatelessWidget {
                     Navigator.pushReplacementNamed(context, Routes.whatIsShortLinksPageRoute);
                   },
                 ),
+                /*
+                ListTile(
+                  onTap: (){
+                    Navigator.pushReplacementNamed(context, Routes.linkShortener);
+                  },
+                  leading: const Icon(Icons.add_link,),
+                  title: const Text("Link Shortener"),
+                ),
+                 */
                 /*
                 ListTile(
                   title: const Text("How To Use"),

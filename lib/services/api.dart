@@ -118,6 +118,40 @@ class Api {
 
   }
 
+  Future<Map<String, dynamic>> getAllUsers({required String token, int? page = 1}) async {
+    debugPrint("getAllUsers");
+    List<User> list = [];
+
+    debugPrint("page : $page");
+
+
+    final response = await dio.get("$usersApiUrl/getAllUsers", queryParameters: {
+      "page" : page
+    },options: Options(headers: {"authorization": "Bearer $token"}));
+
+
+    debugPrint("response: $response");
+
+    if(response.statusCode == 200){
+      debugPrint("Data: ${response.data}");
+
+
+      for(var i = 0; i < response.data["users"].length; i++){
+        list.add(User.fromMap(response.data["users"][i]));
+      }
+
+      return {
+        "page" : response.data["page"],
+        "users" : list
+      };
+
+    }else{
+      debugPrint("Hata: ${response.statusCode} ${response.statusMessage}");
+      throw "${response.statusCode}";
+    }
+
+  }
+
   Future<Link> convertLink({required String originalLink, required String token}) async {
     debugPrint("convertLink");
 
@@ -163,6 +197,48 @@ class Api {
 
   }
 
+  Future<bool> updateUser({required String token, required String username, required String userID}) async {
+    debugPrint("updateUser");
+
+
+    final response = await dio.patch("$usersApiUrl/updateUser/$userID", data: {
+      "username" : username,
+    },options: Options(headers: {"authorization": "Bearer $token"}));
+    debugPrint("response: $response");
+
+
+    if(response.statusCode == 200){
+      debugPrint("Data: ${response.data}");
+
+      return true;
+
+    }else{
+      debugPrint("Hata: ${response.statusCode} ${response.statusMessage}");
+      throw "${response.statusCode}";
+    }
+
+  }
+
+  Future<bool> deleteUser({String? token, required String userID}) async {
+    debugPrint("deleteUser");
+
+
+    debugPrint("user id $userID");
+    final response = await dio.delete("$usersApiUrl/id/$userID",
+        options: Options(headers: {"authorization": "Bearer $token"}));
+    debugPrint("response: $response");
+
+
+    if(response.statusCode == 200){
+      debugPrint("Data: ${response.data}");
+
+      return true;
+
+    }else{
+      debugPrint("Hata: ${response.statusCode} ${response.statusMessage}");
+      throw "${response.statusCode}";
+    }
+  }
 
 
 }

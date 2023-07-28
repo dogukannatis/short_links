@@ -39,12 +39,18 @@ class _LinkShortenerPageState extends ConsumerState<LinkShortenerPage> {
   Widget build(BuildContext context) {
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
 
-
-
     final linkManagerState = ref.watch(linkManagerProvider);
+
+    final userManager = ref.read(userManagerProvider.notifier);
 
 
     return Scaffold(
+      /*
+      appBar: userManager.user != null ? UserMenuBar(isMobile: isMobile, appBar: AppBar(),)
+          : MenuAppBar(isMobile: isMobile, appBar: AppBar(),),
+      drawer: userManager.user != null && isMobile ? const UserMenuDrawer()
+          : isMobile && userManager.user == null ? const MenuDrawer() : null,
+       */
       appBar: UserMenuBar(isMobile: isMobile, appBar: AppBar(),),
       drawer: isMobile ? const UserMenuDrawer() : null,
       body: SingleChildScrollView(

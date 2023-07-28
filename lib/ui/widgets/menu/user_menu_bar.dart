@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
+import 'package:short_links/ui/widgets/CustomDialog.dart';
 import 'package:short_links/view_model/user_manager.dart';
 
 
 
 class UserMenuBar extends ConsumerWidget implements PreferredSizeWidget {
   final AppBar appBar;
+  final PreferredSizeWidget? bottom;
   final bool isMobile;
   const UserMenuBar({
     Key? key,
     required this.isMobile,
     required this.appBar,
+    this.bottom
   }) : super(key: key);
 
   @override
@@ -20,6 +23,7 @@ class UserMenuBar extends ConsumerWidget implements PreferredSizeWidget {
 
 
     return AppBar(
+      bottom: bottom,
       centerTitle: false,
       elevation: 0,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -33,7 +37,7 @@ class UserMenuBar extends ConsumerWidget implements PreferredSizeWidget {
               InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text("Home Page", style: TextStyle(fontSize: 12)),
+                  child: Text("Home", style: TextStyle(fontSize: 12)),
                 ),
                 onTap: (){
                   Navigator.pushReplacementNamed(context, Routes.userHomePage);
@@ -59,12 +63,35 @@ class UserMenuBar extends ConsumerWidget implements PreferredSizeWidget {
                   Navigator.pushReplacementNamed(context, Routes.linkShortener);
                 },
               ),
+              userManager.user!.isAdmin == true ? Row(
+                children: [
+                  const SizedBox(width: 10,),
+                  InkWell(
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Admin Panel", style: TextStyle(fontSize: 12),),
+                    ),
+                    onTap: (){
+                      Navigator.pushReplacementNamed(context, Routes.adminPanelPage);
+                    },
+                  ),
+                ],
+              ) : Container(),
               const VerticalDivider(),
               const SizedBox(width: 10,),
 
               ElevatedButton(
-                onPressed: (){
-                  userManager.signOut();
+                onPressed: () async {
+                  CustomDialog(
+                    title: "Çıkış Yap",
+                    description: "Çıkış yapmak istediğnize emin misiniz?",
+                    acceptButton: "Çıkış Yap",
+                    cancelButton: "Vazgeç",
+                    acceptFunction: () async {
+                      await userManager.signOut();
+                      Navigator.pushReplacementNamed(context, Routes.homePageRoute);
+                    },
+                  ).show(context);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red
