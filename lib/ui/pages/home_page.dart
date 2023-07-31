@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:short_links/models/statistics.dart';
 import 'package:short_links/ui/resources/color_manager.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/menu/menu_drawer.dart';
 import 'package:short_links/ui/widgets/menu/menu_app_bar.dart';
 import 'package:short_links/ui/widgets/statistic_widget.dart';
+import 'package:short_links/view_model/link_manager.dart';
 
 
 class HomePage extends ConsumerStatefulWidget {
@@ -20,6 +22,25 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
 
   bool isMobile = false;
+
+  Statistics? statistics;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    _getStatistics();
+  }
+
+  Future<void> _getStatistics() async {
+    final linkManager = ref.read(linkManagerProvider.notifier);
+    statistics = await linkManager.getStatistics();
+    setState(() {
+
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +78,11 @@ class _HomePageState extends ConsumerState<HomePage> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Row(
+            Row(
               children: [
-                StatisticWidget(headerString: "300", bodyString: "Users",),
-                SizedBox(width: 60,),
-                StatisticWidget(headerString: "1300", bodyString: "Links",),
+                StatisticWidget(headerString: statistics?.totalUsers.toString() ?? "-", bodyString: "Users",),
+                const SizedBox(width: 60,),
+                StatisticWidget(headerString: statistics?.totalLinks.toString() ?? "-", bodyString: "Links",),
               ],
             ),
             OutlinedButton(
@@ -77,12 +98,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                 child: Text(AppStrings.homePagePromotionalButtonText),
               ),
             )
-
-            /*
-                      StatisticCircleWidget(headerString: "300", bodyString: "Users",),
-                      StatisticCircleWidget(headerString: "1250", bodyString: "Links",),
-                      StatisticCircleWidget(headerString: "2", bodyString: "Years Experience",),
-            */
           ],
         ),
       ),

@@ -26,6 +26,7 @@ class AppStrings {
   static const String letsManageYourLinks = "Let's Manage Your Links";
 
   static const String welcome = "Welcome";
+  static const String loggedInMessage = "You logged in as";
 
   static const String letsAddALink = "Let's Add A Link";
   static const String youHaveNotAnyLinkRecords = "You have not any link record.";
@@ -35,5 +36,7 @@ class AppStrings {
 
   static const String success = "Success";
   static const String operationIsSuccessful = "Operation is successful";
+
+  static const String adminPanel = "Admin Panel";
 
 }

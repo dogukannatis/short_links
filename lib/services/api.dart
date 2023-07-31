@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:short_links/models/link.dart';
+import 'package:short_links/models/statistics.dart';
 import 'package:short_links/models/user.dart';
 
 class Api {
@@ -9,6 +10,7 @@ class Api {
   static const String baseUrl = "http://localhost:3000/api";
   static const String usersApiUrl = "$baseUrl/users";
   static const String linksApiUrl = "$baseUrl/links";
+  static const String statisticsApiUrl = "$baseUrl/statistics/";
 
   final dio = Dio();
 
@@ -300,6 +302,25 @@ class Api {
       debugPrint("Data: ${response.data}");
 
       return true;
+
+    }else{
+      debugPrint("Hata: ${response.statusCode} ${response.statusMessage}");
+      throw "${response.statusCode}";
+    }
+  }
+
+  Future<Statistics> getStatistics() async {
+    debugPrint("getStatistics");
+
+
+    final response = await dio.get("$statisticsApiUrl/getAll");
+    debugPrint("response: $response");
+
+
+    if(response.statusCode == 200){
+      debugPrint("Data: ${response.data}");
+
+      return Statistics.fromMap(response.data);
 
     }else{
       debugPrint("Hata: ${response.statusCode} ${response.statusMessage}");

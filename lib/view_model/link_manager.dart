@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:short_links/models/link.dart';
+import 'package:short_links/models/statistics.dart';
 import 'package:short_links/services/api.dart';
 
 
@@ -116,6 +117,25 @@ class LinkManager extends StateNotifier<LinkManagerState>{
     }finally{
       state = LinkManagerState.idle;
     }
+  }
+
+  Future<Statistics> getStatistics() async {
+    /*
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString("token");
+
+    if(token == null){
+     throw "User credentials are not valid. Please signin again.";
+    }
+     */
+
+    try{
+      return await api.getStatistics();
+    }finally{
+      state = LinkManagerState.idle;
+    }
+
   }
 
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:short_links/ui/resources/routes_manager.dart';
 import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/CustomButton.dart';
@@ -33,7 +34,8 @@ class _UserHomePageState extends ConsumerState<UserHomePage> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("${AppStrings.welcome} ${userManager.user!.username}", style: const TextStyle(fontSize: 32, letterSpacing: 3),),
+              Lottie.asset("assets/welcome.json"),
+              Text("${AppStrings.loggedInMessage} ${userManager.user!.username}", style: const TextStyle(fontSize: 32, letterSpacing: 3),),
               const SizedBox(height: 10,),
               CustomButton(
                 width: 200,
