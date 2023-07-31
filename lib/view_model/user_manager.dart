@@ -175,7 +175,11 @@ class UserManager extends StateNotifier<UserManagerState>{
 
     try{
       state = UserManagerState.busy;
-      return await api.deleteUser(token: token, userID: userID);
+      bool result = await api.deleteUser(token: token, userID: userID);
+      if(result){
+        userList.removeWhere((element) => element.id == userID);
+      }
+      return result;
     }finally{
       state = UserManagerState.idle;
     }

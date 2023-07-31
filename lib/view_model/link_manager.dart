@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:short_links/models/link.dart';
 import 'package:short_links/services/api.dart';
 
@@ -15,12 +17,56 @@ class LinkManager extends StateNotifier<LinkManagerState>{
 
   Api api = Api();
 
+  List<Link> linkList = [];
+  int page = 0;
+  bool hasMoreLinks = true;
+
+
   Future<List<Link>> getMyLinks({required String token}) async {
 
     try{
       await Future.delayed(const Duration(microseconds: 100));
       state = LinkManagerState.busy;
       return await api.getMyLinks(token: token);
+    }finally{
+      state = LinkManagerState.idle;
+    }
+
+  }
+
+
+  Future<List<Link>> getAllLinks({bool refresh = false}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString("token");
+
+    if(token == null){
+      debugPrint("Token is invalid. Login required.");
+      return [];
+    }
+
+
+    try{
+      state = LinkManagerState.busy;
+      if(refresh){
+        page = 0;
+        hasMoreLinks = true;
+      }
+
+      if(hasMoreLinks == false){
+        return linkList;
+      }
+
+      Map result = await api.getAllLinks(token: token, page: page);
+      page++;
+      linkList.addAll(result["links"]);
+
+      if(result["links"].length < 20){
+        hasMoreLinks = false;
+      }
+
+      return linkList;
+
     }finally{
       state = LinkManagerState.idle;
     }
@@ -49,6 +95,27 @@ class LinkManager extends StateNotifier<LinkManagerState>{
       state = LinkManagerState.idle;
     }
 
+  }
+
+  Future<bool> deleteLink({required String id}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? token = prefs.getString("token");
+
+    if(token == null){
+      return false;
+    }
+
+    try{
+      state = LinkManagerState.busy;
+      bool result = await api.deleteLink(token: token, id: id);
+      if(result){
+        linkList.removeWhere((element) => element.id == id);
+      }
+      return result;
+    }finally{
+      state = LinkManagerState.idle;
+    }
   }
 
 

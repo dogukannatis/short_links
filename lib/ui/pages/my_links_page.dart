@@ -50,70 +50,63 @@ class _MyLinksPageState extends ConsumerState<MyLinksPage> {
     return Scaffold(
       appBar: UserMenuBar(isMobile: isMobile, appBar: AppBar(),),
       drawer: isMobile ? const UserMenuDrawer() : null,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-
-              linkManagerState == LinkManagerState.busy ? const Center(
-                child: CircularProgressIndicator(),
-              ) : linkList.isEmpty ? Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(AppStrings.youHaveNotAnyLinkRecords, style: TextStyle(fontSize: 32, letterSpacing: 3),),
-                  const SizedBox(height: 10,),
-                  CustomButton(
-                    width: 200,
-                    onPressed: (){
-                      Navigator.pushReplacementNamed(context, Routes.linkShortener);
-                    }, child: const Text(AppStrings.letsAddALink),
-                  )
-                ],
-              ) :
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text("My Links", style: TextStyle(fontSize: 32, letterSpacing: 3),),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: linkList.length,
-                        itemBuilder: (context, index){
-                          final link = linkList[index];
-                          return ListTile(
-                            onTap: () async {
-                              debugPrint("link: ${AppConstants.shortUrl}${link.refLink}");
-                              if (!await launchUrl(Uri.parse("${AppConstants.shortUrl}${link.refLink}"))) {
-                              throw Exception('Could not launch ${AppConstants.shortUrl}${link.refLink}');
-                              }
-                            },
-                            title: Text("${AppConstants.shortUrl}${link.refLink}"),
-                            subtitle: Text("${link.originalLink}"),
-                            trailing: Text("${link.click} clicks"),
-                            leading: IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: (){
-
-                                CustomDialog(
-                                  title: "Delete",
-                                  description: "Do you want to delete url?",
-                                  cancelButton: "Cancel",
-                                  acceptButton: "Delete",
-                                  acceptFunction: () => deleteLink(linkList[index].id),
-                                ).show(context);
-
-
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  )
-            ],
-          ),
+      body: linkManagerState == LinkManagerState.busy ? const Center(
+        child: CircularProgressIndicator(),
+      ) : linkList.isEmpty ? Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(AppStrings.youHaveNotAnyLinkRecords, style: TextStyle(fontSize: 32, letterSpacing: 3),),
+            const SizedBox(height: 10,),
+            CustomButton(
+              width: 200,
+              onPressed: (){
+                Navigator.pushReplacementNamed(context, Routes.linkShortener);
+              }, child: const Text(AppStrings.letsAddALink),
+            )
+          ],
         ),
-      ),
+      ) :
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            const Text("My Links", style: TextStyle(fontSize: 32, letterSpacing: 3),),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: linkList.length,
+              itemBuilder: (context, index){
+                final link = linkList[index];
+                return ListTile(
+                  onTap: () async {
+                    debugPrint("link: ${AppConstants.shortUrl}${link.refLink}");
+                    if (!await launchUrl(Uri.parse("${AppConstants.shortUrl}${link.refLink}"))) {
+                      throw Exception('Could not launch ${AppConstants.shortUrl}${link.refLink}');
+                    }
+                  },
+                  title: Text("${AppConstants.shortUrl}${link.refLink}"),
+                  subtitle: Text("${link.originalLink}"),
+                  trailing: Text("${link.click} clicks"),
+                  leading: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: (){
+
+                      CustomDialog(
+                        title: "Delete",
+                        description: "Do you want to delete url?",
+                        cancelButton: "Cancel",
+                        acceptButton: "Delete",
+                        acceptFunction: () => deleteLink(linkList[index].id),
+                      ).show(context);
+
+
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      )
     );
   }
 

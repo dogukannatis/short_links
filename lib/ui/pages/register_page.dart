@@ -192,7 +192,7 @@ class _LoginPageState extends ConsumerState<RegisterPage> {
     }catch(e){
       CustomDialog(
         title: "Error",
-        description: "Hata $e",
+        description: "$e",
         acceptButton: "Close",
       ).show(context);
     }

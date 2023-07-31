@@ -5,7 +5,6 @@ import 'package:short_links/ui/resources/string_manager.dart';
 import 'package:short_links/ui/widgets/CustomButton.dart';
 import 'package:short_links/ui/widgets/menu/user_menu_bar.dart';
 import 'package:short_links/ui/widgets/menu/user_menu_drawer.dart';
-import 'package:short_links/view_model/user_manager.dart';
 
 class AdminPanelPage extends ConsumerStatefulWidget {
   const AdminPanelPage({
@@ -38,7 +37,14 @@ class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
               onPressed: (){
                 Navigator.pushReplacementNamed(context, Routes.manageUsers);
               },
-              child: const Text(AppStrings.manageUsers),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.people),
+                  SizedBox(width: 10,),
+                  Text(AppStrings.manageUsers),
+                ],
+              ),
             ),
             const SizedBox(height: 20,),
             CustomButton(
@@ -46,7 +52,14 @@ class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
               onPressed: (){
                 Navigator.pushReplacementNamed(context, Routes.manageLinks);
               },
-              child: const Text(AppStrings.manageLinks),
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.link),
+                  SizedBox(width: 10,),
+                  Text(AppStrings.manageLinks),
+                ],
+              ),
             ),
           ],
         ),
