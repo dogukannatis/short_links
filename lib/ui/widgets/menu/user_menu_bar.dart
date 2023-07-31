@@ -83,10 +83,10 @@ class UserMenuBar extends ConsumerWidget implements PreferredSizeWidget {
               ElevatedButton(
                 onPressed: () async {
                   CustomDialog(
-                    title: "Çıkış Yap",
-                    description: "Çıkış yapmak istediğnize emin misiniz?",
-                    acceptButton: "Çıkış Yap",
-                    cancelButton: "Vazgeç",
+                    title: "Sign out",
+                    description: "Do you want to sign out?",
+                    acceptButton: "Logout",
+                    cancelButton: "Cancel",
                     acceptFunction: () async {
                       await userManager.signOut();
                       Navigator.pushReplacementNamed(context, Routes.homePageRoute);
