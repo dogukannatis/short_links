@@ -170,6 +170,7 @@ class _ManageLinksPageState extends ConsumerState<ManageLinksPage> {
           ),
         );
 
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }catch(e, str){
