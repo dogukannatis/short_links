@@ -7,7 +7,7 @@ import 'package:short_links/models/user.dart';
 
 class Api {
 
-  static const String baseUrl = "http://localhost:3000/api";
+  static const String baseUrl = "https://linkshortener-3ff2c6c98bd6.herokuapp.com/api"; // "http://localhost:3000/api";
   static const String usersApiUrl = "$baseUrl/users";
   static const String linksApiUrl = "$baseUrl/links";
   static const String statisticsApiUrl = "$baseUrl/statistics/";
