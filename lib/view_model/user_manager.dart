@@ -155,7 +155,9 @@ class UserManager extends StateNotifier<UserManagerState>{
       state = UserManagerState.busy;
       bool result = await api.updateUser(username: username, userID: userID, token: token);
       if(result){
+        debugPrint("userList: $userList");
         userList.where((element) => element.id == userID).first.username = username;
+        debugPrint("userremoveList: $userList");
       }
       return result;
     }finally{
@@ -177,7 +179,9 @@ class UserManager extends StateNotifier<UserManagerState>{
       state = UserManagerState.busy;
       bool result = await api.deleteUser(token: token, userID: userID);
       if(result){
+        debugPrint("userList: $userList");
         userList.removeWhere((element) => element.id == userID);
+        debugPrint("userremoveList: $userList");
       }
       return result;
     }finally{

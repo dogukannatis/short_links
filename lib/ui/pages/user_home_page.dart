@@ -31,20 +31,22 @@ class _UserHomePageState extends ConsumerState<UserHomePage> {
       appBar: UserMenuBar(isMobile: isMobile, appBar: AppBar(),),
       drawer: isMobile ? const UserMenuDrawer() : null,
       body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Lottie.asset("assets/welcome.json"),
-              Text("${AppStrings.loggedInMessage} ${userManager.user!.username}", style: const TextStyle(fontSize: 32, letterSpacing: 3),),
-              const SizedBox(height: 10,),
-              CustomButton(
-                width: 200,
-                onPressed: (){
-                  Navigator.pushReplacementNamed(context, Routes.myLinks);
-                },
-               child: const Text(AppStrings.letsManageYourLinks),
-              )
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Lottie.asset("assets/welcome.json", height: 300),
+                Text("${AppStrings.loggedInMessage} ${userManager.user!.username}", style: const TextStyle(fontSize: 32, letterSpacing: 3),),
+                const SizedBox(height: 10,),
+                CustomButton(
+                  width: 200,
+                  onPressed: (){
+                    Navigator.pushReplacementNamed(context, Routes.myLinks);
+                  },
+                 child: const Text(AppStrings.letsManageYourLinks),
+                )
+              ],
+            ),
           )
       ),
     );

@@ -99,7 +99,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 20,),
                         CustomButton(
-                          onPressed: (){
+                          onPressed: userManagerState == UserManagerState.busy ? null : (){
                             //TODO: Login Operations
                             if(_formLoginKey.currentState!.validate()){
                               _formLoginKey.currentState!.save();

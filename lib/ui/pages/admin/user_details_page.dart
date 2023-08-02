@@ -138,13 +138,18 @@ class _UserDetailsPageState extends ConsumerState<UserDetailsPage> {
 
                     }
                   },
-                  child: isSaving ? const Center(
-                    child: SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: CircularProgressIndicator(),
-                    ),
-                  ) : const Text("Save User"),
+                  child: isSaving ? const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("Updating User"),
+                      SizedBox(width: 10,),
+                      SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2,),
+                      )
+                    ],
+                  ) : const Text("Update User"),
                 ),
                 const SizedBox(height: 10,),
                 CustomButton(
@@ -161,12 +166,16 @@ class _UserDetailsPageState extends ConsumerState<UserDetailsPage> {
                     ).show(context);
 
                   },
-                  child: isDeleting ? const Center(
-                    child: SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: CircularProgressIndicator(),
-                    ),
+                  child: isDeleting ? const Row(
+                    children: [
+                      Text("Deleting"),
+                      SizedBox(width: 10,),
+                      SizedBox(
+                        height: 16,
+                        width: 16,
+                        child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2,),
+                      )
+                    ],
                   ) : const Text("Delete User"),
                 ),
               ],

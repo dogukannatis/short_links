@@ -1,7 +1,7 @@
 
 class AppConstants {
-  static const String url = "http://localhost:3000/";
-  static const String shortUrl = "http://localhost:3000/";
-  static const String redirectUrl = "http://localhost:3000/api/links/redirect/";
+  static const String url = "https://linkshortener-3ff2c6c98bd6.herokuapp.com/";
+  static const String shortUrl = "https://linkshortener-3ff2c6c98bd6.herokuapp.com/";
+  static const String redirectUrl = "https://linkshortener-3ff2c6c98bd6.herokuapp.com/api/links/redirect/";
 
 }

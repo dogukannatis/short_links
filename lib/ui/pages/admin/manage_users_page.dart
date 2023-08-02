@@ -90,6 +90,7 @@ class _ManageUsersPageState extends ConsumerState<ManageUsersPage> {
   Widget build(BuildContext context) {
     isMobile = MediaQuery.of(context).size.width > 700 ? false : true;
     final userManager = ref.read(userManagerProvider.notifier);
+    ref.watch(userManagerProvider);
 
     return Scaffold(
       appBar: UserMenuBar(isMobile: isMobile, appBar: AppBar(),),
