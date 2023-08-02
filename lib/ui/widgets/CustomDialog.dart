@@ -31,6 +31,7 @@ class _CustomDialogState extends State<CustomDialog> {
       child: Stack(
         children: <Widget>[
           Container(
+            width: MediaQuery.of(context).size.width / 2.6,
             padding: const EdgeInsets.only(left: 10, top: 30, right: 10, bottom: 10),
             margin: const EdgeInsets.only(top: 8),
             decoration: BoxDecoration(
